@@ -51,8 +51,8 @@ Para generar el archivo APK:
 1. Asegúrate de tener configurado el SDK de Android.
 2. Ejecuta:
 ```bash
-npx @ionic/cli cordova platform add android
-npx @ionic/cli cordova build android
+npx cordova platform add android@13.0.0 --legacy-peer-deps
+npx cordova build android --legacy-peer-deps
 ```
 El APK se generará en `platforms/android/app/build/outputs/apk/debug/`.
 
