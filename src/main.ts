@@ -5,6 +5,7 @@ import { importProvidersFrom } from '@angular/core';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideRemoteConfig, getRemoteConfig } from '@angular/fire/remote-config';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { environment } from './environments/environment';
 
 import { routes } from './app/app.routes';
@@ -18,5 +19,6 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(IonicStorageModule.forRoot()),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideRemoteConfig(() => getRemoteConfig()),
+    provideFirestore(() => getFirestore()),
   ],
 });

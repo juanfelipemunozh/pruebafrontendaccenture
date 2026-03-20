@@ -6,7 +6,7 @@ import {
   IonLabel, IonCheckbox, IonButton, IonIcon, IonInput,
   IonFab, IonFabButton, IonBadge, IonSelect, IonSelectOption
 } from '@ionic/angular/standalone';
-import { ScrollingModule } from '@angular/cdk/scrolling';
+import { ScrollingModule, CdkVirtualForOf } from '@angular/cdk/scrolling';
 import { addIcons } from 'ionicons';
 import { addOutline, trashOutline, helpCircleOutline, listOutline } from 'ionicons/icons';
 import { Task, Category } from '../models/models';
@@ -21,7 +21,7 @@ import { v4 as uuidv4 } from 'uuid';
   styleUrls: ['home.page.scss'],
   standalone: true,
   imports: [
-    FormsModule, RouterLink, ScrollingModule,
+    FormsModule, RouterLink, ScrollingModule, CdkVirtualForOf,
     IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem,
     IonLabel, IonCheckbox, IonButton, IonIcon, IonInput,
     IonFab, IonFabButton, IonBadge, IonSelect, IonSelectOption
@@ -46,7 +46,7 @@ export class HomePage {
 
   async ionViewWillEnter() {
     await this.loadData();
-    this.showDeleteAll = this.remoteConfig.getBoolean('show_delete_all');
+    this.showDeleteAll = await this.remoteConfig.getBoolean('show_delete_all');
   }
 
   async loadData() {

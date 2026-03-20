@@ -6,8 +6,10 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class RemoteConfigService {
+  private _initializationPromise: Promise<void>;
+
   constructor(private remoteConfig: RemoteConfig) {
-    this.init();
+    this._initializationPromise = this.init();
   }
 
   async init() {
@@ -20,7 +22,8 @@ export class RemoteConfigService {
     }
   }
 
-  getBoolean(key: string): boolean {
+  async getBoolean(key: string): Promise<boolean> {
+    await this._initializationPromise;
     return getValue(this.remoteConfig, key).asBoolean();
   }
 }
