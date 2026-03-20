@@ -1,0 +1,78 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      Mis Tareas
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-item lines="none">
+      <ion-label>Filtrar por:</ion-label>
+      <ion-select [(ngModel)]="filterCategoryId" (ionChange)="onFilterChange()" interface="popover">
+        <ion-select-option value="all">Todas</ion-select-option>
+        <ion-select-option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="ion-padding">
+    <h2>Nueva Tarea</h2>
+    <ion-item>
+      <ion-input placeholder="¿Qué hay que hacer?" [(ngModel)]="newTaskTitle"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Categoría</ion-label>
+      <ion-select [(ngModel)]="selectedCategoryId" placeholder="Seleccionar">
+        <ion-select-option value="">Ninguna</ion-select-option>
+        <ion-select-option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-button expand="block" (click)="addTask()" [disabled]="!newTaskTitle">
+      <ion-icon name="add-outline" slot="start"></ion-icon>
+      Agregar Tarea
+    </ion-button>
+
+    <ion-list>
+      <cdk-virtual-scroll-viewport itemSize="60" class="ion-content-scroll-host">
+        <ion-item *cdkVirtualFor="let task of filteredTasks; trackBy: trackByFn">
+          <ion-checkbox [checked]="task.completed" (ionChange)="toggleTask(task)" slot="start"></ion-checkbox>
+          <ion-label [style.text-decoration]="task.completed ? 'line-through' : 'none'">
+            <h3>{{ task.title }}</h3>
+            <p>
+            @if (task.categoryId) {
+              <ion-badge color="medium">
+                {{ getCategoryName(task.categoryId) }}
+              </ion-badge>
+            } @else {
+              <span>Sin categoría</span>
+            }
+            </p>
+          </ion-label>
+          <ion-button fill="clear" color="danger" (click)="deleteTask(task.id)" slot="end">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </cdk-virtual-scroll-viewport>
+      @if (filteredTasks.length === 0) {
+        <ion-item lines="none" class="ion-text-center">
+          <ion-label color="medium">No hay tareas pendientes</ion-label>
+        </ion-item>
+      }
+    </ion-list>
+
+    @if (showDeleteAll && tasks.length > 0) {
+      <ion-button expand="block" color="danger" fill="outline"
+        (click)="deleteAll()" class="ion-margin-top">
+        <ion-icon name="trash-outline" slot="start"></ion-icon>
+        Borrar Todas las Tareas
+      </ion-button>
+    }
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/category" color="secondary">
+      <ion-icon name="list-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
