@@ -43,7 +43,7 @@ Esta es una aplicación de lista de tareas (To-Do List) construida con Ionic y A
 
 ### Ejecución en Navegador
 ```bash
-ionic serve
+npx @ionic/cli serve
 ```
 
 ### Compilación para Android
